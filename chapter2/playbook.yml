@@ -4,5 +4,11 @@
   tasks:
     - name: Ensure NTP is installed
       yum: name=ntp state=present
+    - shell: |
+        if ! rpm -qa | grep -qw ntp; then 
+          yum install ntpd -y vagrat
+        fi  
+    #- command: yum install ntpd -y 
+
     - name: Ensure NTP is running 
       service: name=ntpd state=started enabled=yes

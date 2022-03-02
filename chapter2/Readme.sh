@@ -9,5 +9,9 @@
 # vagrant ssh
 
 
-#
+# After adding provision execute the below command
 # vagrant provision 
+
+
+# Destory vm from locally
+# vagrant destroy
