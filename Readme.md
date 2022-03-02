@@ -11,3 +11,6 @@ Pip3 install sensible
 #Password asking 
 
 sudo apt install sshpass
+
+
+# brew install vagrant
