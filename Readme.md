@@ -14,3 +14,21 @@ sudo apt install sshpass
 
 
 # brew install vagrant
+
+
+
+
+index 
+
+# chapter -1 
+    
+     sample testing and command executing 
+
+# chapter -2 
+
+      using vagrant and ansible 
+
+# chapter - 3
+
+    Ad-hoc tasks and inventory
+    1 database serrver , 2 appliaiton server 
