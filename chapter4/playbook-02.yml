@@ -1,0 +1,59 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - username: sarath
+    - home: /home/sarath
+    - create_user_file: yes
+    - usersys: vagrant
+  tasks:
+    - name: print variables in the host
+      debug:
+        msg: "Username {{ username }} , home dir {{ home }}"
+    - name: print facts 
+      debug:
+        msg: "IPv4 address: {{ ansible_default_ipv4.address }}"
+    - name: checking condition and print
+      file:
+        path: /home/{{ usersys }}/myfile
+        state: touch
+      when: create_user_file   
+
+    - name: Check if file already exists
+      command: ls /home/{{ usersys }}/myfile
+      register: file_exists
+      ignore_errors: yes
+    - name: create file for user
+      file:
+        path: /home/{{ usersys }}/myfile
+        state: touch
+      when: file_exists is failed
+    - name: show message if file exists
+      debug:
+        msg: The user file already exists.
+      when: file_exists is succeeded  
+    - name : using loops 
+      file:
+        path:   /home/{{ usersys }}/ansible-{{ item }}
+        state: touch
+      loop: 
+        - sarath
+        - nik
+        - john
+    # https://docs.ansible.com/ansible/2.9/modules/yum_module.html#yum-module
+    - name: Update yum cache
+      become_user: "{{ usersys }}"
+      yum:
+        update_cache: yes    
+    - name:  Update apt cache and make sure Vim is installed
+      yum:
+        name: vim
+        update_cache: yes        
+    - name: Update apt cache and make sure Vim, Curl and Unzip are installed
+      yum:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - vim
+        - curl
+        - unzip    

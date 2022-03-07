@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - page_title: My Landing Page
+    - page_description: This is my landing page description.
+  tasks: 
+    # required for nginx
+    - name: install EPEL repo
+      become: yes
+      yum: name=epel-release state=present
+    - name:  Update apt cache and make sure nginx is installed
+      yum:
+        name: nginx
+        state: installed
+        update_cache: yes     
+    - name: start nginx 
+      service:
+        name: nginx
+        enabled: yes
+        state: started        
+    - name: Apply Page Template 
+      template:
+        src: landing-page.html.j2
+        dest: /usr/share/nginx/html/index.html
+    # - name: Allow all access to tcp port 80
+    #   ufw:
+    #     rule: allow
+    #     to_port: '80'
+    #     proto: tcp        
